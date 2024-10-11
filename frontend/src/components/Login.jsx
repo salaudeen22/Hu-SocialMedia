@@ -1,12 +1,43 @@
 import React, { useState } from "react";
+import { useNavigate} from "react-router-dom";
 
 function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+const navigate=useNavigate();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    try {
+      const response = await fetch("http://localhost:5555/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: Email,  
+          password: Password,
+        }),
+      });
+ 
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("authtoken", data.token);
+        console.log("Login Successful"); 
+        navigate("/Home");
+     
+      } else {
+     
+        const errorData = await response.json();
+        console.log("Login failed:", errorData.message || "Unknown error occurred");
+      }
+    } catch (error) {
+      console.log("Error during login:", error); 
+    }
   };
+  
 
   return (
     <form>

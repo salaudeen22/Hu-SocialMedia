@@ -1,15 +1,42 @@
 import React, { useState } from "react";
- 
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
- 
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit =  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   
+    try {
+      const response = await fetch("http://localhost:5555/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: Name,
+          email: Email,
+          password: Password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        console.log(
+          "Something went wrong:",
+          errorResponse.error || "Unknown error"
+        );
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Register successful", data);
+      navigate("/auth");
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
@@ -23,7 +50,7 @@ function SignUp() {
               type="text"
               className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500"
               placeholder="Enter Your name"
-              value={Name} 
+              value={Name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -31,10 +58,10 @@ function SignUp() {
             <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
             <input
               name="email"
-              type="email" 
+              type="email"
               className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500"
               placeholder="Enter email"
-              value={Email} 
+              value={Email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -45,7 +72,7 @@ function SignUp() {
               type="password"
               className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500"
               placeholder="Enter password"
-              value={Password} 
+              value={Password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
