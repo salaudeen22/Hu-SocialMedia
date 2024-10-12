@@ -17,7 +17,7 @@ Connect();
  
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/",(req,res)=>
+app.use("/test",(req,res)=>
 {
     res.send("hello Hubx");
 })
