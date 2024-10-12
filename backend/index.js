@@ -4,8 +4,9 @@ const Connect=require("./Connect");
 const auth=require("./Router/auth");
 const dotenv = require('dotenv')
 const cors=require("cors");
+const PostController=require("./Controller/PostController")
 const corsOptions = {
-    origin: 'http://localhost:3000', 
+  origin: '*',
     optionsSuccessStatus: 200, 
   };
 const app=express();
@@ -14,13 +15,15 @@ Connect();
 
 
  
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 app.use(express.json());
 // app.use("/",(req,res)=>
 // {
 //     res.send("hello Hubx");
 // })
 app.use("/auth",auth);
+
+app.use("/api",PostController);
 
 app.listen(PORT,()=>
 {
