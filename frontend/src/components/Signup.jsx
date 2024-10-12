@@ -33,6 +33,7 @@ function SignUp() {
       }
 
       const data = await response.json();
+      console.log(data);
       // console.log("Register successful", data);
       Swal.fire({
         title: "Registeration Success!",

@@ -8,9 +8,13 @@ function Navbar() {
   const token = localStorage.getItem("authtoken");
   const { showModal, toggleModal } = useModal(); 
 
+
+
+
   const handleLogout = () => {
     localStorage.removeItem("authtoken");
     navigate("/auth");
+    console.log(showModal);
   };
 
   return (
