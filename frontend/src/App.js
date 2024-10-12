@@ -10,7 +10,7 @@ function App() {
      <ModalProvider>
       <Routes>
         <Route path="/auth" element={<Auth />}></Route>
-        <Route path="/Home" element={<HomePage/>}></Route>
+        <Route path="/" element={<HomePage/>}></Route>
       </Routes>
       </ModalProvider>
     </BrowserRouter>

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-const navigate=useNavigate();
-
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch("http://localhost:5555/auth/login", {
         method: "POST",
@@ -17,28 +17,39 @@ const navigate=useNavigate();
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: Email,  
+          email: Email,
           password: Password,
         }),
       });
- 
+
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("authtoken", data.token);
         localStorage.setItem("email", Email);
-        console.log("Login Successful"); 
-        navigate("/Home");
-     
+        Swal.fire({
+          title: "Login Successful",
+
+          icon: "success",
+        });
+        console.log("Login Successful");
+        navigate("/");
       } else {
-     
         const errorData = await response.json();
-        console.log("Login failed:", errorData.message || "Unknown error occurred");
+        console.log(
+          "Login failed:",
+          errorData.message || "Unknown error occurred"
+        );
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${errorData.message}`,
+          footer: '<a href="#">Why do I have this issue?</a>'
+        });
       }
     } catch (error) {
-      console.log("Error during login:", error); 
+      console.log("Error during login:", error);
     }
   };
-  
 
   return (
     <form>

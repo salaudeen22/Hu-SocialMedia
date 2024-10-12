@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Swal from 'sweetalert2';
 function PostForm() {
   const [formData, setFormData] = useState({
     title: '',
@@ -41,8 +41,19 @@ function PostForm() {
 
       const result = await response.json();
       console.log('Response:', result);
+      Swal.fire({
+        title: "Post Sucessfull!",
+        
+        icon: "success"
+      });
     } catch (error) {
       console.error('Error submitting form:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+        
+      });
     }
   };
 

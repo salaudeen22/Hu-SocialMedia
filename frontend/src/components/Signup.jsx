@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 function SignUp() {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
@@ -32,10 +32,20 @@ function SignUp() {
       }
 
       const data = await response.json();
-      console.log("Register successful", data);
+      // console.log("Register successful", data);
+      Swal.fire({
+        title: "Registeration Success!",
+
+        icon: "success",
+      });
       navigate("/auth");
     } catch (error) {
       console.error("Error during registration:", error);
+      Swal.fire({
+        title: "Error during registration !",
+        text: `${error}`,
+        icon: "error",
+      });
     }
   };
 
