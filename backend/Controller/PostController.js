@@ -27,7 +27,7 @@ router.post("/postContent", upload.single("PostImage"), async (req, res) => {
       }
       postImage = cloudinaryResponse.url;
 
-    
+      // Delete temporary file
       fs.unlink(req.file.path, (err) => {
         if (err) {
           console.error("Error deleting temporary file:", err);
@@ -51,10 +51,11 @@ router.post("/postContent", upload.single("PostImage"), async (req, res) => {
       post: newPost,
     });
   } catch (error) {
-    console.error("Error creating post:", error);
-    res.status(500).json({ error: "An error occurred while creating the post" });
+    console.error("Error creating post:", error.message); 
+    res.status(500).json({ error: "An error occurred while creating the post", details: error.message });
   }
 });
+
 
 router.get("/posts", async (req, res) => {
   try {
