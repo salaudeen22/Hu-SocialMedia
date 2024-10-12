@@ -10,7 +10,7 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authtoken");
-    navigate("/");
+    navigate("/auth");
   };
 
   return (
