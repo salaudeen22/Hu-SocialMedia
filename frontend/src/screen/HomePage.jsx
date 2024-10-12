@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { useModal } from "../Modal/ ModalContext";
 import PostForm from "../components/PostForm";
 import DisplayAllPost from "../components/displayAllPost"; 
+import BASE_URL from "../url";
 
 function HomePage() {
   const { showModal, toggleModal } = useModal();
@@ -10,7 +11,7 @@ function HomePage() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('http://localhost:5555/api/posts');
+      const response = await fetch(`${BASE_URL}api/posts`);
       const data = await response.json();
       if (data.success) {
         setPosts(data.posts);

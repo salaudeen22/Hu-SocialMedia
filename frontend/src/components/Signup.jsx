@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import BASE_URL from "../url";
 function SignUp() {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
@@ -10,7 +11,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5555/auth/signup", {
+      const response = await fetch(`${BASE_URL}auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

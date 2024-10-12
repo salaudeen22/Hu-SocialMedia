@@ -17,10 +17,10 @@ Connect();
  
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/",(req,res)=>
-{
-    res.send("hello Hubx");
-})
+// app.use("/",(req,res)=>
+// {
+//     res.send("hello Hubx");
+// })
 app.use("/auth",auth);
 
 app.use("/api",PostController);

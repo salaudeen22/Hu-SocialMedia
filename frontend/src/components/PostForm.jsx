@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import BASE_URL from '../url';
 function PostForm() {
   const [formData, setFormData] = useState({
     title: '',
@@ -34,7 +35,7 @@ function PostForm() {
     data.append('PostImage', formData.imageUrl); 
 
     try {
-      const response = await fetch('http://localhost:5555/api/postContent', {
+      const response = await fetch(`${BASE_URL}api/postContent`, {
         method: 'POST',
         body: data,
       });
