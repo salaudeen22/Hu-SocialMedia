@@ -25,6 +25,7 @@ const navigate=useNavigate();
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("authtoken", data.token);
+        localStorage.setItem("email", Email);
         console.log("Login Successful"); 
         navigate("/Home");
      

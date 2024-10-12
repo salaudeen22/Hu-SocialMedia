@@ -4,21 +4,46 @@ function PostForm() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    imageUrl: '',
-    location: ''
+    imageUrl: null,
   });
 
+ 
   const handleChange = (e) => {
+    const { name, type, files, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'file' ? files[0] : value, 
     });
   };
 
-  const handleSubmit = (e) => {
+  const email = localStorage.getItem("email");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data:', formData);
-    
+
+  
+    if (!email) {
+      console.error('No email found in local storage');
+      return;
+    }
+
+    const data = new FormData();
+    data.append('email', email);
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    data.append('PostImage', formData.imageUrl); 
+
+    try {
+      const response = await fetch('http://localhost:5555/api/postContent', {
+        method: 'POST',
+        body: data,
+      });
+
+      const result = await response.json();
+      console.log('Response:', result);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
@@ -53,10 +78,9 @@ function PostForm() {
           <input
             type="file"
             name="imageUrl"
-            value={formData.imageUrl}
             onChange={handleChange}
             className="w-full mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300"
-            placeholder="Enter image URL"
+            accept=".jpg, .jpeg, .png" 
           />
         </div>
       
@@ -64,7 +88,7 @@ function PostForm() {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
         >
-           Post
+          Post
         </button>
       </form>
     </div>

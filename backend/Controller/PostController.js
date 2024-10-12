@@ -56,4 +56,17 @@ router.post("/postContent", upload.single("PostImage"), async (req, res) => {
   }
 });
 
+router.get("/posts", async (req, res) => {
+  try {
+    const posts = await PostModel.find().populate('user', 'email');
+    res.status(200).json({
+      success: true,
+      posts,
+    });
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "An error occurred while fetching posts" });
+  }
+});
+
 module.exports = router;
