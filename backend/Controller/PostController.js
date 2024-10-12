@@ -58,7 +58,7 @@ router.post("/postContent", upload.single("PostImage"), async (req, res) => {
 
 router.get("/posts", async (req, res) => {
   try {
-    const posts = await PostModel.find().populate('user', 'email');
+    const posts = await PostModel.find().populate('user', 'name');
     res.status(200).json({
       success: true,
       posts,
